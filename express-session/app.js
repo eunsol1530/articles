@@ -20,6 +20,14 @@ const sessionMiddleware = session({
   resave: false,
   saveUninitialized: false,
   secret: 'keyboard cat',
+  name: 'sessionId', // Custom session cookie name
+  cookie: {
+    httpOnly: true, // Ensures the cookie is sent only over HTTP(S), not client JavaScript
+    secure: true, // Ensures the browser only sends the cookie over HTTPS
+    domain: '127.0.0.1', // Set the domain for the cookie
+    path: '/', // Set the path for the cookie
+    expires: new Date(Date.now() + 3600000), // Set expiration date for persistent cookies
+  },
 });
 
 const sessionReadonly = (req, res, next) => {

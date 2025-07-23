@@ -19,7 +19,15 @@ app.use(session({
   }),
   resave: false,
   saveUninitialized: false,
-  secret: 'keyboard cat',
+  secret: process.env.SESSION_SECRET || 'default_secret', // Use environment variable for secret
+  name: 'sessionId', // Custom session cookie name
+  cookie: {
+    httpOnly: true, // Ensures the cookie is sent only over HTTP(S), not client JavaScript
+    secure: process.env.NODE_ENV === 'production', // Ensures the cookie is sent over HTTPS in production
+    // domain: 'yourdomain.com', // Set this if you have a specific domain
+    // path: '/', // Set this if you have a specific path
+    // expires: new Date(Date.now() + 3600000), // Set expiration if needed
+  },
 }));
 
 app.get('/user', (req, res) => {
